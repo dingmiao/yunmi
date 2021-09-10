@@ -3,7 +3,7 @@ package com.yunmi.dao.DO;
 public class ItemDO {
     private Integer itemId;
     private String title;
-    private String describe;
+    private String info;
     private Double price;
     private String pictureURL;
     private String jumpURL;
@@ -23,12 +23,12 @@ public class ItemDO {
         this.title = title;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getInfo() {
+        return info;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public Double getPrice() {

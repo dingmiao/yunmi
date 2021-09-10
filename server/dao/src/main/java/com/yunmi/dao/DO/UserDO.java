@@ -6,7 +6,7 @@ public class UserDO {
     private String phoneNum;
     private String password;
     private String wxOpenId;
-    private ExLevel exLevel;
+    private Integer exLevel; // 0 normal, 1 super, 2 vip
     private String nickName;
 
     public Integer getUserId() {
@@ -41,11 +41,11 @@ public class UserDO {
         this.wxOpenId = wxOpenId;
     }
 
-    public ExLevel getExLevel() {
+    public Integer getExLevel() {
         return exLevel;
     }
 
-    public void setExLevel(ExLevel exLevel) {
+    public void setExLevel(Integer exLevel) {
         this.exLevel = exLevel;
     }
 
@@ -66,6 +66,5 @@ public class UserDO {
     }
 
     private String emailAdress;
-    public enum ExLevel {NORMAL, SURPER, VIPUSER}
 
 }
