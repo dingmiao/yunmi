@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunmi.dao.mapper.base.UserDOBaseMapper">
+
+
+    <insert id="insertUserDO"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `user`
+        (
+        <trim suffixOverrides=",">
+                    <if test="id!=null">
+                        `id`,
+                    </if>
+                    <if test="phoneNum!=null">
+                        `phoneNum`,
+                    </if>
+                    <if test="password!=null">
+                        `password`,
+                    </if>
+                    <if test="wxOpenId!=null">
+                        `wxOpenId`,
+                    </if>
+                    <if test="exLevel!=null">
+                        `exLevel`,
+                    </if>
+                    <if test="nickName!=null">
+                        `nickName`,
+                    </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+                <if test="id!=null">
+                    #{id},
+                </if>
+                <if test="phoneNum!=null">
+                    #{phoneNum},
+                </if>
+                <if test="password!=null">
+                    #{password},
+                </if>
+                <if test="wxOpenId!=null">
+                    #{wxOpenId},
+                </if>
+                <if test="exLevel!=null">
+                    #{exLevel},
+                </if>
+                <if test="nickName!=null">
+                    #{nickName},
+                </if>
+        </trim>
+        )
+    </insert>
+
+
+
+
+    <update id="updateUserDO">
+        UPDATE `user`
+        SET
+        <trim suffixOverrides=",">
+            <if test="phoneNum != null and phoneNum!=''">
+                `phoneNum` = #{phoneNum},
+            </if>
+            <if test="password != null and password!=''">
+                `password` = #{password},
+            </if>
+            <if test="wxOpenId != null and wxOpenId!=''">
+                `wxOpenId` = #{wxOpenId},
+            </if>
+            <if test="exLevel != null">
+                `exLevel` = #{exLevel},
+            </if>
+            <if test="nickName != null and nickName!=''">
+                `nickName` = #{nickName},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+                `id` = #{id} and
+        </trim>
+    </update>
+
+    <update id="update">
+        UPDATE `user`
+        SET
+        <trim suffixOverrides=",">
+        <if test="set.phoneNum != null and set.phoneNum!=''">
+            `phoneNum` = #{set.phoneNum},
+        </if>
+        <if test="set.password != null and set.password!=''">
+            `password` = #{set.password},
+        </if>
+        <if test="set.wxOpenId != null and set.wxOpenId!=''">
+            `wxOpenId` = #{set.wxOpenId},
+        </if>
+        <if test="set.exLevel != null">
+            `exLevel` = #{set.exLevel},
+        </if>
+        <if test="set.nickName != null and set.nickName!=''">
+            `nickName` = #{set.nickName},
+        </if>
+        </trim>
+        <trim prefix="where" suffixOverrides="and | or">
+                <if test="where.idList != null">
+                    `id` in
+                    <foreach collection="where.idList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.idSt !=null">
+                `id` >= #{where.idSt} and
+            </if>
+            <if test="where.idEd!=null">
+                `id` &lt;= #{where.idEd} and
+            </if>
+                <if test="where.phoneNumList != null">
+                    `phoneNum` in
+                    <foreach collection="where.phoneNumList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyPhoneNum!=null and where.fuzzyPhoneNum.size()>0">
+                (
+                <foreach collection="where.fuzzyPhoneNum"  separator="or" item="item">
+                    `PhoneNum` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyPhoneNum!=null and where.rightFuzzyPhoneNum.size()>0">
+                (
+                <foreach collection="where.rightFuzzyPhoneNum"  separator="or" item="item">
+                    `PhoneNum` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.passwordList != null">
+                    `password` in
+                    <foreach collection="where.passwordList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyPassword!=null and where.fuzzyPassword.size()>0">
+                (
+                <foreach collection="where.fuzzyPassword"  separator="or" item="item">
+                    `Password` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyPassword!=null and where.rightFuzzyPassword.size()>0">
+                (
+                <foreach collection="where.rightFuzzyPassword"  separator="or" item="item">
+                    `Password` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.wxOpenIdList != null">
+                    `wxOpenId` in
+                    <foreach collection="where.wxOpenIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyWxOpenId!=null and where.fuzzyWxOpenId.size()>0">
+                (
+                <foreach collection="where.fuzzyWxOpenId"  separator="or" item="item">
+                    `WxOpenId` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyWxOpenId!=null and where.rightFuzzyWxOpenId.size()>0">
+                (
+                <foreach collection="where.rightFuzzyWxOpenId"  separator="or" item="item">
+                    `WxOpenId` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.exLevelList != null">
+                    `exLevel` in
+                    <foreach collection="where.exLevelList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.exLevelSt !=null">
+                `exLevel` >= #{where.exLevelSt} and
+            </if>
+            <if test="where.exLevelEd!=null">
+                `exLevel` &lt;= #{where.exLevelEd} and
+            </if>
+                <if test="where.nickNameList != null">
+                    `nickName` in
+                    <foreach collection="where.nickNameList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyNickName!=null and where.fuzzyNickName.size()>0">
+                (
+                <foreach collection="where.fuzzyNickName"  separator="or" item="item">
+                    `NickName` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyNickName!=null and where.rightFuzzyNickName.size()>0">
+                (
+                <foreach collection="where.rightFuzzyNickName"  separator="or" item="item">
+                    `NickName` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+        </trim>
+    </update>
+
+
+    <resultMap type="com.yunmi.dao.entity.UserDO" id="UserDOMap">
+        <result property="id" column="id"/>
+        <result property="phoneNum" column="phoneNum"/>
+        <result property="password" column="password"/>
+        <result property="wxOpenId" column="wxOpenId"/>
+        <result property="exLevel" column="exLevel"/>
+        <result property="nickName" column="nickName"/>
+    </resultMap>
+
+
+    <select id="queryUserDO" resultMap="UserDOMap">
+        select
+        <include refid="baseResult"></include>
+        from  `user`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="id != null">
+                `id` = #{id} and
+            </if>
+            <if test="phoneNum != null and phoneNum!=''">
+                `phoneNum` = #{phoneNum} and
+            </if>
+            <if test="password != null and password!=''">
+                `password` = #{password} and
+            </if>
+            <if test="wxOpenId != null and wxOpenId!=''">
+                `wxOpenId` = #{wxOpenId} and
+            </if>
+            <if test="exLevel != null">
+                `exLevel` = #{exLevel} and
+            </if>
+            <if test="nickName != null and nickName!=''">
+                `nickName` = #{nickName} and
+            </if>
+            <if test = "(_parameter instanceof com.yunmi.dao.entity.UserDO$QueryBuilder) == true">
+                <if test="idList != null">
+                    `id` in
+                    <foreach collection="idList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="idSt !=null">
+                    `id` >= #{idSt} and
+                </if>
+                <if test="idEd!=null">
+                    `id` &lt;= #{idEd} and
+                </if>
+                <if test="phoneNumList != null">
+                    `phoneNum` in
+                    <foreach collection="phoneNumList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyPhoneNum!=null and fuzzyPhoneNum.size()>0">
+                    (
+                    <foreach collection="fuzzyPhoneNum"  separator="or" item="item">
+                        `PhoneNum` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyPhoneNum!=null and rightFuzzyPhoneNum.size()>0">
+                    (
+                    <foreach collection="rightFuzzyPhoneNum"  separator="or" item="item">
+                        `PhoneNum` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="passwordList != null">
+                    `password` in
+                    <foreach collection="passwordList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyPassword!=null and fuzzyPassword.size()>0">
+                    (
+                    <foreach collection="fuzzyPassword"  separator="or" item="item">
+                        `Password` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyPassword!=null and rightFuzzyPassword.size()>0">
+                    (
+                    <foreach collection="rightFuzzyPassword"  separator="or" item="item">
+                        `Password` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="wxOpenIdList != null">
+                    `wxOpenId` in
+                    <foreach collection="wxOpenIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyWxOpenId!=null and fuzzyWxOpenId.size()>0">
+                    (
+                    <foreach collection="fuzzyWxOpenId"  separator="or" item="item">
+                        `WxOpenId` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyWxOpenId!=null and rightFuzzyWxOpenId.size()>0">
+                    (
+                    <foreach collection="rightFuzzyWxOpenId"  separator="or" item="item">
+                        `WxOpenId` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="exLevelList != null">
+                    `exLevel` in
+                    <foreach collection="exLevelList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="exLevelSt !=null">
+                    `exLevel` >= #{exLevelSt} and
+                </if>
+                <if test="exLevelEd!=null">
+                    `exLevel` &lt;= #{exLevelEd} and
+                </if>
+                <if test="nickNameList != null">
+                    `nickName` in
+                    <foreach collection="nickNameList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyNickName!=null and fuzzyNickName.size()>0">
+                    (
+                    <foreach collection="fuzzyNickName"  separator="or" item="item">
+                        `NickName` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyNickName!=null and rightFuzzyNickName.size()>0">
+                    (
+                    <foreach collection="rightFuzzyNickName"  separator="or" item="item">
+                        `NickName` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryUserDOLimit1" resultMap="UserDOMap">
+        select
+        <include refid="baseResult"></include>
+        from  `user`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="id != null">
+                `id` = #{id} and
+            </if>
+            <if test="phoneNum != null and phoneNum!=''">
+                `phoneNum` = #{phoneNum} and
+            </if>
+            <if test="password != null and password!=''">
+                `password` = #{password} and
+            </if>
+            <if test="wxOpenId != null and wxOpenId!=''">
+                `wxOpenId` = #{wxOpenId} and
+            </if>
+            <if test="exLevel != null">
+                `exLevel` = #{exLevel} and
+            </if>
+            <if test="nickName != null and nickName!=''">
+                `nickName` = #{nickName} and
+            </if>
+            <if test = "(_parameter instanceof com.yunmi.dao.entity.UserDO$QueryBuilder) == true">
+                    <if test="idList != null">
+                        `id` in
+                        <foreach collection="idList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="idSt !=null">
+                    `id` >= #{idSt} and
+                </if>
+                <if test="idEd!=null">
+                    `id` &lt;= #{idEd} and
+                </if>
+                    <if test="phoneNumList != null">
+                        `phoneNum` in
+                        <foreach collection="phoneNumList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyPhoneNum!=null and fuzzyPhoneNum.size()>0">
+                    (
+                    <foreach collection="fuzzyPhoneNum"  separator="or" item="item">
+                        `PhoneNum` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyPhoneNum!=null and rightFuzzyPhoneNum.size()>0">
+                    (
+                    <foreach collection="rightFuzzyPhoneNum"  separator="or" item="item">
+                        `PhoneNum` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="passwordList != null">
+                        `password` in
+                        <foreach collection="passwordList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyPassword!=null and fuzzyPassword.size()>0">
+                    (
+                    <foreach collection="fuzzyPassword"  separator="or" item="item">
+                        `Password` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyPassword!=null and rightFuzzyPassword.size()>0">
+                    (
+                    <foreach collection="rightFuzzyPassword"  separator="or" item="item">
+                        `Password` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="wxOpenIdList != null">
+                        `wxOpenId` in
+                        <foreach collection="wxOpenIdList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyWxOpenId!=null and fuzzyWxOpenId.size()>0">
+                    (
+                    <foreach collection="fuzzyWxOpenId"  separator="or" item="item">
+                        `WxOpenId` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyWxOpenId!=null and rightFuzzyWxOpenId.size()>0">
+                    (
+                    <foreach collection="rightFuzzyWxOpenId"  separator="or" item="item">
+                        `WxOpenId` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="exLevelList != null">
+                        `exLevel` in
+                        <foreach collection="exLevelList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="exLevelSt !=null">
+                    `exLevel` >= #{exLevelSt} and
+                </if>
+                <if test="exLevelEd!=null">
+                    `exLevel` &lt;= #{exLevelEd} and
+                </if>
+                    <if test="nickNameList != null">
+                        `nickName` in
+                        <foreach collection="nickNameList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyNickName!=null and fuzzyNickName.size()>0">
+                    (
+                    <foreach collection="fuzzyNickName"  separator="or" item="item">
+                        `NickName` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyNickName!=null and rightFuzzyNickName.size()>0">
+                    (
+                    <foreach collection="rightFuzzyNickName"  separator="or" item="item">
+                        `NickName` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+        `id`,
+        `phoneNum`,
+        `password`,
+        `wxOpenId`,
+        `exLevel`,
+        `nickName`,
+        </trim>
+    </sql>
+
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test = "(_parameter instanceof com.yunmi.dao.entity.UserDO$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                    <if test="fetchFields.fetchFields.id==true">
+                        `id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.phoneNum==true">
+                        `phoneNum`,
+                    </if>
+                    <if test="fetchFields.fetchFields.password==true">
+                        `password`,
+                    </if>
+                    <if test="fetchFields.fetchFields.wxOpenId==true">
+                        `wxOpenId`,
+                    </if>
+                    <if test="fetchFields.fetchFields.exLevel==true">
+                        `exLevel`,
+                    </if>
+                    <if test="fetchFields.fetchFields.nickName==true">
+                        `nickName`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                    <if test="fetchFields.excludeFields.id==null">
+                        `id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.phoneNum==null">
+                        `phoneNum`,
+                    </if>
+                    <if test="fetchFields.excludeFields.password==null">
+                        `password`,
+                    </if>
+                    <if test="fetchFields.excludeFields.wxOpenId==null">
+                        `wxOpenId`,
+                    </if>
+                    <if test="fetchFields.excludeFields.exLevel==null">
+                        `exLevel`,
+                    </if>
+                    <if test="fetchFields.excludeFields.nickName==null">
+                        `nickName`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                        `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof com.yunmi.dao.entity.UserDO$QueryBuilder) == false" >
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>

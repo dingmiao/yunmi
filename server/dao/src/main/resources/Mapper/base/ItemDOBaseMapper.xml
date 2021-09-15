@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunmi.dao.mapper.base.ItemDOBaseMapper">
+
+
+    <insert id="insertItemDO"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `item`
+        (
+        <trim suffixOverrides=",">
+                    <if test="id!=null">
+                        `id`,
+                    </if>
+                    <if test="title!=null">
+                        `title`,
+                    </if>
+                    <if test="pictureURL!=null">
+                        `pictureURL`,
+                    </if>
+                    <if test="jumpURL!=null">
+                        `jumpURL`,
+                    </if>
+                    <if test="price!=null">
+                        `price`,
+                    </if>
+                    <if test="info!=null">
+                        `info`,
+                    </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+                <if test="id!=null">
+                    #{id},
+                </if>
+                <if test="title!=null">
+                    #{title},
+                </if>
+                <if test="pictureURL!=null">
+                    #{pictureURL},
+                </if>
+                <if test="jumpURL!=null">
+                    #{jumpURL},
+                </if>
+                <if test="price!=null">
+                    #{price},
+                </if>
+                <if test="info!=null">
+                    #{info},
+                </if>
+        </trim>
+        )
+    </insert>
+
+
+
+
+    <update id="updateItemDO">
+        UPDATE `item`
+        SET
+        <trim suffixOverrides=",">
+            <if test="title != null and title!=''">
+                `title` = #{title},
+            </if>
+            <if test="pictureURL != null and pictureURL!=''">
+                `pictureURL` = #{pictureURL},
+            </if>
+            <if test="jumpURL != null and jumpURL!=''">
+                `jumpURL` = #{jumpURL},
+            </if>
+            <if test="price != null">
+                `price` = #{price},
+            </if>
+            <if test="info != null and info!=''">
+                `info` = #{info},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+                `id` = #{id} and
+        </trim>
+    </update>
+
+    <update id="update">
+        UPDATE `item`
+        SET
+        <trim suffixOverrides=",">
+        <if test="set.title != null and set.title!=''">
+            `title` = #{set.title},
+        </if>
+        <if test="set.pictureURL != null and set.pictureURL!=''">
+            `pictureURL` = #{set.pictureURL},
+        </if>
+        <if test="set.jumpURL != null and set.jumpURL!=''">
+            `jumpURL` = #{set.jumpURL},
+        </if>
+        <if test="set.price != null">
+            `price` = #{set.price},
+        </if>
+        <if test="set.info != null and set.info!=''">
+            `info` = #{set.info},
+        </if>
+        </trim>
+        <trim prefix="where" suffixOverrides="and | or">
+                <if test="where.idList != null">
+                    `id` in
+                    <foreach collection="where.idList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.idSt !=null">
+                `id` >= #{where.idSt} and
+            </if>
+            <if test="where.idEd!=null">
+                `id` &lt;= #{where.idEd} and
+            </if>
+                <if test="where.titleList != null">
+                    `title` in
+                    <foreach collection="where.titleList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyTitle!=null and where.fuzzyTitle.size()>0">
+                (
+                <foreach collection="where.fuzzyTitle"  separator="or" item="item">
+                    `Title` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyTitle!=null and where.rightFuzzyTitle.size()>0">
+                (
+                <foreach collection="where.rightFuzzyTitle"  separator="or" item="item">
+                    `Title` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.pictureURLList != null">
+                    `pictureURL` in
+                    <foreach collection="where.pictureURLList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyPictureURL!=null and where.fuzzyPictureURL.size()>0">
+                (
+                <foreach collection="where.fuzzyPictureURL"  separator="or" item="item">
+                    `PictureURL` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyPictureURL!=null and where.rightFuzzyPictureURL.size()>0">
+                (
+                <foreach collection="where.rightFuzzyPictureURL"  separator="or" item="item">
+                    `PictureURL` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.jumpURLList != null">
+                    `jumpURL` in
+                    <foreach collection="where.jumpURLList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyJumpURL!=null and where.fuzzyJumpURL.size()>0">
+                (
+                <foreach collection="where.fuzzyJumpURL"  separator="or" item="item">
+                    `JumpURL` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyJumpURL!=null and where.rightFuzzyJumpURL.size()>0">
+                (
+                <foreach collection="where.rightFuzzyJumpURL"  separator="or" item="item">
+                    `JumpURL` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.priceList != null">
+                    `price` in
+                    <foreach collection="where.priceList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.priceSt !=null">
+                `price` >= #{where.priceSt} and
+            </if>
+            <if test="where.priceEd!=null">
+                `price` &lt;= #{where.priceEd} and
+            </if>
+                <if test="where.infoList != null">
+                    `info` in
+                    <foreach collection="where.infoList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyInfo!=null and where.fuzzyInfo.size()>0">
+                (
+                <foreach collection="where.fuzzyInfo"  separator="or" item="item">
+                    `Info` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyInfo!=null and where.rightFuzzyInfo.size()>0">
+                (
+                <foreach collection="where.rightFuzzyInfo"  separator="or" item="item">
+                    `Info` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+        </trim>
+    </update>
+
+
+    <resultMap type="com.yunmi.dao.entity.ItemDO" id="ItemDOMap">
+        <result property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="pictureURL" column="pictureURL"/>
+        <result property="jumpURL" column="jumpURL"/>
+        <result property="price" column="price"/>
+        <result property="info" column="info"/>
+    </resultMap>
+
+
+    <select id="queryItemDO" resultMap="ItemDOMap">
+        select
+        <include refid="baseResult"></include>
+        from  `item`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="id != null">
+                `id` = #{id} and
+            </if>
+            <if test="title != null and title!=''">
+                `title` = #{title} and
+            </if>
+            <if test="pictureURL != null and pictureURL!=''">
+                `pictureURL` = #{pictureURL} and
+            </if>
+            <if test="jumpURL != null and jumpURL!=''">
+                `jumpURL` = #{jumpURL} and
+            </if>
+            <if test="price != null">
+                `price` = #{price} and
+            </if>
+            <if test="info != null and info!=''">
+                `info` = #{info} and
+            </if>
+            <if test = "(_parameter instanceof com.yunmi.dao.entity.ItemDO$QueryBuilder) == true">
+                <if test="idList != null">
+                    `id` in
+                    <foreach collection="idList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="idSt !=null">
+                    `id` >= #{idSt} and
+                </if>
+                <if test="idEd!=null">
+                    `id` &lt;= #{idEd} and
+                </if>
+                <if test="titleList != null">
+                    `title` in
+                    <foreach collection="titleList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyTitle!=null and fuzzyTitle.size()>0">
+                    (
+                    <foreach collection="fuzzyTitle"  separator="or" item="item">
+                        `Title` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyTitle!=null and rightFuzzyTitle.size()>0">
+                    (
+                    <foreach collection="rightFuzzyTitle"  separator="or" item="item">
+                        `Title` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="pictureURLList != null">
+                    `pictureURL` in
+                    <foreach collection="pictureURLList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyPictureURL!=null and fuzzyPictureURL.size()>0">
+                    (
+                    <foreach collection="fuzzyPictureURL"  separator="or" item="item">
+                        `PictureURL` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyPictureURL!=null and rightFuzzyPictureURL.size()>0">
+                    (
+                    <foreach collection="rightFuzzyPictureURL"  separator="or" item="item">
+                        `PictureURL` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="jumpURLList != null">
+                    `jumpURL` in
+                    <foreach collection="jumpURLList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyJumpURL!=null and fuzzyJumpURL.size()>0">
+                    (
+                    <foreach collection="fuzzyJumpURL"  separator="or" item="item">
+                        `JumpURL` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyJumpURL!=null and rightFuzzyJumpURL.size()>0">
+                    (
+                    <foreach collection="rightFuzzyJumpURL"  separator="or" item="item">
+                        `JumpURL` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="priceList != null">
+                    `price` in
+                    <foreach collection="priceList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="priceSt !=null">
+                    `price` >= #{priceSt} and
+                </if>
+                <if test="priceEd!=null">
+                    `price` &lt;= #{priceEd} and
+                </if>
+                <if test="infoList != null">
+                    `info` in
+                    <foreach collection="infoList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyInfo!=null and fuzzyInfo.size()>0">
+                    (
+                    <foreach collection="fuzzyInfo"  separator="or" item="item">
+                        `Info` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyInfo!=null and rightFuzzyInfo.size()>0">
+                    (
+                    <foreach collection="rightFuzzyInfo"  separator="or" item="item">
+                        `Info` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryItemDOLimit1" resultMap="ItemDOMap">
+        select
+        <include refid="baseResult"></include>
+        from  `item`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="id != null">
+                `id` = #{id} and
+            </if>
+            <if test="title != null and title!=''">
+                `title` = #{title} and
+            </if>
+            <if test="pictureURL != null and pictureURL!=''">
+                `pictureURL` = #{pictureURL} and
+            </if>
+            <if test="jumpURL != null and jumpURL!=''">
+                `jumpURL` = #{jumpURL} and
+            </if>
+            <if test="price != null">
+                `price` = #{price} and
+            </if>
+            <if test="info != null and info!=''">
+                `info` = #{info} and
+            </if>
+            <if test = "(_parameter instanceof com.yunmi.dao.entity.ItemDO$QueryBuilder) == true">
+                    <if test="idList != null">
+                        `id` in
+                        <foreach collection="idList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="idSt !=null">
+                    `id` >= #{idSt} and
+                </if>
+                <if test="idEd!=null">
+                    `id` &lt;= #{idEd} and
+                </if>
+                    <if test="titleList != null">
+                        `title` in
+                        <foreach collection="titleList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyTitle!=null and fuzzyTitle.size()>0">
+                    (
+                    <foreach collection="fuzzyTitle"  separator="or" item="item">
+                        `Title` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyTitle!=null and rightFuzzyTitle.size()>0">
+                    (
+                    <foreach collection="rightFuzzyTitle"  separator="or" item="item">
+                        `Title` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="pictureURLList != null">
+                        `pictureURL` in
+                        <foreach collection="pictureURLList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyPictureURL!=null and fuzzyPictureURL.size()>0">
+                    (
+                    <foreach collection="fuzzyPictureURL"  separator="or" item="item">
+                        `PictureURL` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyPictureURL!=null and rightFuzzyPictureURL.size()>0">
+                    (
+                    <foreach collection="rightFuzzyPictureURL"  separator="or" item="item">
+                        `PictureURL` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="jumpURLList != null">
+                        `jumpURL` in
+                        <foreach collection="jumpURLList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyJumpURL!=null and fuzzyJumpURL.size()>0">
+                    (
+                    <foreach collection="fuzzyJumpURL"  separator="or" item="item">
+                        `JumpURL` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyJumpURL!=null and rightFuzzyJumpURL.size()>0">
+                    (
+                    <foreach collection="rightFuzzyJumpURL"  separator="or" item="item">
+                        `JumpURL` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="priceList != null">
+                        `price` in
+                        <foreach collection="priceList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="priceSt !=null">
+                    `price` >= #{priceSt} and
+                </if>
+                <if test="priceEd!=null">
+                    `price` &lt;= #{priceEd} and
+                </if>
+                    <if test="infoList != null">
+                        `info` in
+                        <foreach collection="infoList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyInfo!=null and fuzzyInfo.size()>0">
+                    (
+                    <foreach collection="fuzzyInfo"  separator="or" item="item">
+                        `Info` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyInfo!=null and rightFuzzyInfo.size()>0">
+                    (
+                    <foreach collection="rightFuzzyInfo"  separator="or" item="item">
+                        `Info` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+        `id`,
+        `title`,
+        `pictureURL`,
+        `jumpURL`,
+        `price`,
+        `info`,
+        </trim>
+    </sql>
+
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test = "(_parameter instanceof com.yunmi.dao.entity.ItemDO$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                    <if test="fetchFields.fetchFields.id==true">
+                        `id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.title==true">
+                        `title`,
+                    </if>
+                    <if test="fetchFields.fetchFields.pictureURL==true">
+                        `pictureURL`,
+                    </if>
+                    <if test="fetchFields.fetchFields.jumpURL==true">
+                        `jumpURL`,
+                    </if>
+                    <if test="fetchFields.fetchFields.price==true">
+                        `price`,
+                    </if>
+                    <if test="fetchFields.fetchFields.info==true">
+                        `info`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                    <if test="fetchFields.excludeFields.id==null">
+                        `id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.title==null">
+                        `title`,
+                    </if>
+                    <if test="fetchFields.excludeFields.pictureURL==null">
+                        `pictureURL`,
+                    </if>
+                    <if test="fetchFields.excludeFields.jumpURL==null">
+                        `jumpURL`,
+                    </if>
+                    <if test="fetchFields.excludeFields.price==null">
+                        `price`,
+                    </if>
+                    <if test="fetchFields.excludeFields.info==null">
+                        `info`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                        `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof com.yunmi.dao.entity.ItemDO$QueryBuilder) == false" >
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>

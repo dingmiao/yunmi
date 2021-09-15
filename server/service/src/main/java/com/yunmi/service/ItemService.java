@@ -1,6 +1,6 @@
 package com.yunmi.service;
 
-import com.yunmi.dao.DO.ItemDO;
+import com.yunmi.dao.entity.ItemDO;
 import org.springframework.stereotype.Service;
 
 @Service
