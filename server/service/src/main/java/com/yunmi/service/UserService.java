@@ -5,6 +5,8 @@ import com.yunmi.dao.mapper.UserDOMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     @Autowired
@@ -50,5 +52,26 @@ public class UserService {
             return userDO;
         }
 
+    }
+    public List<UserDO> queryALL() {
+        return userDOMapper.queryALL();
+    }
+    public UserDO deleteUserByPhoneNum(String phoneNum) {
+        UserDO userDO = getUserByPhoneNum(phoneNum);
+        if (null == userDO) {
+            return null;
+        }
+        userDOMapper.deleteUser(userDO.getPhoneNum());
+        return userDO;
+    }
+    public UserDO setNickName(String phoneNum, String nickName) {
+        UserDO userDO = getUserByPhoneNum(phoneNum);
+        userDO.setNickName(nickName);
+        int change = userDOMapper.updateUserDO(userDO);
+        if (0 == change) {
+            return null;
+        } else {
+            return userDO;
+        }
     }
 }

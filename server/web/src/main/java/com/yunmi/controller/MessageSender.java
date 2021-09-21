@@ -20,6 +20,13 @@ public class MessageSender {
         resultMap.put("data", "null");
         return JSON.toJSONString(resultMap);
     }
+    public static String getNoSuchThingMessage() {
+        Map<String,String> resultMap = new HashMap<>(10);
+        resultMap.put("code","404");
+        resultMap.put("message","not such thing");
+        resultMap.put("data", "null");
+        return JSON.toJSONString(resultMap);
+    }
     public static String getRequestErrorMessage() {
         Map<String,String> resultMap = new HashMap<>(10);
         resultMap.put("code","400");

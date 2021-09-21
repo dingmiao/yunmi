@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 /**
 *  @author author
 */
-@Mapper
 @Repository
 public interface ItemDOBaseMapper {
 

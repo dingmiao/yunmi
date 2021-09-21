@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -40,6 +39,50 @@ public class UserController {
         }
         userService.setExlevel(user, exLevel);
         return MessageSender.getSuccessMessage(JSONArray.toJSONString(user));
+    }
+    @RequestMapping(value = "queryAllUsers")
+    public String queryUsers() {
+        return MessageSender.getSuccessMessage(JSONArray.toJSONString(userService.queryALL()));
+    }
+    @RequestMapping(value = "bindWxOpenId", method = RequestMethod.POST)
+    public String bindWxOpenId(String wxOpenId, String phoneNum) {
+        UserDO userDO = userService.getUserByPhoneNum(phoneNum);
+        if (null == userDO) {
+            return MessageSender.getNoSuchUserMessage();
+        } else {
+            UserDO returnObj = userService.bindWxOpenId(phoneNum, wxOpenId);
+            if (null == returnObj) {
+                return MessageSender.errorMessage("bind WxId Error");
+            } else {
+                return MessageSender.getSuccessMessage(JSONArray.toJSONString(returnObj));
+            }
+        }
+    }
+    @RequestMapping(value = "setNickname", method = RequestMethod.POST)
+    public String setNickname(String phoneNum, String nickName) {
+        UserDO userDO = userService.getUserByPhoneNum(phoneNum);
+        if (null == userDO) {
+            return MessageSender.getNoSuchUserMessage();
+        } else {
+            UserDO returnObj = userService.setNickName(phoneNum,nickName);
+            if (null == returnObj) {
+                return MessageSender.errorMessage("set nickName error!");
+            } else {
+                return MessageSender.getSuccessMessage(JSONArray.toJSONString(returnObj));
+            }
+        }
+    }
+    @RequestMapping(value = "deleteUser",method = RequestMethod.POST)
+    public String deleteUser(String phoneNum) {
+        if (null == phoneNum) {
+            return MessageSender.errorMessage("phoneNum is error");
+        }
+        UserDO userDO = userService.deleteUserByPhoneNum(phoneNum);
+        if (null == userDO) {
+            return MessageSender.getNoSuchUserMessage();
+        } else {
+            return MessageSender.getSuccessMessage(JSONArray.toJSONString(userDO));
+        }
     }
 
 }
