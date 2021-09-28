@@ -20,7 +20,7 @@ public class ItemController {
         return MessageSender.getSuccessMessage(JSONArray.toJSONString(itemService.queryAllItem()));
     }
 
-    @RequestMapping(value = "getItemDetialByTitle", method = RequestMethod.POST)
+    @RequestMapping(value = "getItemDetailByTitle", method = RequestMethod.POST)
     public String getItemDetialByTitle(String title) {
         if (null == title || title.length() == 0) {
             return MessageSender.errorMessage("bad request");
