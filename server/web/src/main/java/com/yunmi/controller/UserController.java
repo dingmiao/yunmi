@@ -28,7 +28,7 @@ public class UserController {
         return MessageSender.getSuccessMessage(JSONArray.toJSONString(user));
     }
 
-    @RequestMapping(value = "setPrivilege", method = RequestMethod.GET)
+    @RequestMapping(value = "setPrivilege", method = RequestMethod.POST)
     public String setPrivilegeByPhoneNum(String phoneNum, Integer exLevel) {
         if (null == phoneNum || phoneNum.length() != 11) {
             return MessageSender.getRequestErrorMessage();

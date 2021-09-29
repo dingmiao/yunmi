@@ -33,7 +33,6 @@ public class LoginController {
     @RequestMapping("1")
     public String f(HttpServletRequest request) {
         Cookie cookie = cookieService.getCookie(request);
-        System.out.println(cookie.getValue());
         return MessageSender.getSuccessMessage("hhh");
     }
     @RequestMapping(value = "checkState", method = RequestMethod.GET)
